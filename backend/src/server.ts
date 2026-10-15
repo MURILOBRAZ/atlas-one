@@ -40,11 +40,13 @@ app.setNotFoundHandler((_request, reply) => {
 
 await registerRoutes(app);
 
-try {
-  // 0.0.0.0 permite acesso pelo emulador Android e por dispositivos na mesma rede.
-  await app.listen({ port: env.port, host: '0.0.0.0' });
-  app.log.info(`Banco de dados configurado: ${getDatabaseHost()}`);
-} catch (error) {
-  app.log.error(error);
-  process.exit(1);
-}
+// 0.0.0.0 permite acesso pelo emulador Android e por dispositivos na mesma rede.
+// Sem "await" de propósito: na Vercel o listen é interceptado e nunca conclui,
+// e esperar por ele travaria o carregamento da função.
+app
+  .listen({ port: env.port, host: '0.0.0.0' })
+  .then(() => app.log.info(`Banco de dados configurado: ${getDatabaseHost()}`))
+  .catch((error) => {
+    app.log.error(error);
+    process.exit(1);
+  });
