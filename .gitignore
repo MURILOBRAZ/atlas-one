@@ -1,0 +1,17 @@
+# Credenciais: nunca versionar
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+backend/dist/
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+.idea/
+*.log
+
+# Material exclusivo do professor (não vai para o repositório)
+docs/TEACHER_GUIDE.md
